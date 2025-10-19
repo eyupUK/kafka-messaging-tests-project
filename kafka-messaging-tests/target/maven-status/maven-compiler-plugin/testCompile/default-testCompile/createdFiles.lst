@@ -1,0 +1,14 @@
+org/example/tests/SchemaEvolutionIT.class
+org/example/avro/v1/OrderCreated.class
+org/example/avro/v1/OrderCreated$Builder.class
+org/example/tests/KafkaConsumerIT.class
+org/example/tests/TestApp$OrdersController.class
+org/example/avro/v2/OrderCreated.class
+org/example/tests/SchemaCompatibilityIT.class
+org/example/avro/v2/OrderCreated$Builder.class
+org/example/tests/TestApp$OrderService.class
+org/example/tests/AvroKafkaTestConfig.class
+org/example/tests/DlqAssertionIT.class
+org/example/tests/TestApp.class
+org/example/tests/ApiToKafkaE2E.class
+org/example/tests/KafkaConfigTest.class

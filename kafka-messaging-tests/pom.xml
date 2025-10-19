@@ -1,0 +1,261 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.3.4</version>
+    <relativePath/>
+  </parent>
+
+  <groupId>org.example</groupId>
+  <artifactId>kafka-messaging-tests</artifactId>
+  <name>kafka-messaging-tests</name>
+  <packaging>jar</packaging>
+
+  <properties>
+    <java.version>21</java.version>
+    <allure.junit5.version>2.24.0</allure.junit5.version>
+    <testcontainers.version>1.20.2</testcontainers.version>
+    <confluent.version>7.6.0</confluent.version>
+    <avro.version>1.11.3</avro.version>
+  </properties>
+
+  <dependencies>
+    <!-- Spring test + web -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Spring Kafka -->
+    <dependency>
+      <groupId>org.springframework.kafka</groupId>
+      <artifactId>spring-kafka</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.kafka</groupId>
+      <artifactId>spring-kafka-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- DB + JDBC -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Testcontainers -->
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${testcontainers.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>kafka</artifactId>
+      <version>${testcontainers.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>${testcontainers.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Awaitility + AssertJ -->
+    <dependency>
+      <groupId>org.awaitility</groupId>
+      <artifactId>awaitility</artifactId>
+      <version>4.2.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>3.26.3</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Allure -->
+    <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-junit5</artifactId>
+      <version>${allure.junit5.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Confluent Avro SerDe -->
+    <dependency>
+      <groupId>io.confluent</groupId>
+      <artifactId>kafka-avro-serializer</artifactId>
+      <version>${confluent.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Apache Avro -->
+    <dependency>
+      <groupId>org.apache.avro</groupId>
+      <artifactId>avro</artifactId>
+      <version>${avro.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+      <dependency>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+          <version>2.17.2</version>
+          <scope>test</scope>
+      </dependency>
+
+
+  </dependencies>
+
+
+
+  <!-- Add Confluent Maven repository so io.confluent artifacts can be resolved -->
+  <repositories>
+    <repository>
+      <id>confluent</id>
+      <name>Confluent Maven Repository</name>
+      <url>https://packages.confluent.io/maven/</url>
+    </repository>
+  </repositories>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.3.1</version>
+        <configuration>
+          <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+          <useModulePath>false</useModulePath>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>3.3.1</version>
+        <executions>
+          <execution>
+            <id>integration-tests</id>
+            <goals><goal>integration-test</goal><goal>verify</goal></goals>
+            <configuration>
+              <includes>
+                <include>**/*IT.java</include>
+                <include>**/*E2E.java</include>
+                <include>**/*SchemaCompatibilityIT.java</include>
+                <include>**/*SchemaEvolutionIT.java</include>
+              </includes>
+              <reportsDirectory>${project.build.directory}/failsafe-reports</reportsDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+        <!-- language: xml -->
+        <plugin>
+            <groupId>org.apache.avro</groupId>
+            <artifactId>avro-maven-plugin</artifactId>
+            <version>${avro.version}</version>
+            <executions>
+                <execution>
+                    <id>generate-avro-sources</id>
+                    <phase>generate-sources</phase>
+                    <goals>
+                        <goal>schema</goal>
+                    </goals>
+                    <configuration>
+                        <sourceDirectory>${project.basedir}/src/main/avro</sourceDirectory>
+                        <outputDirectory>${project.build.directory}/generated-sources/avro</outputDirectory>
+                    </configuration>
+                </execution>
+                <execution>
+                    <id>generate-avro-test-sources</id>
+                    <phase>generate-test-sources</phase>
+                    <goals>
+                        <goal>schema</goal>
+                    </goals>
+                    <configuration>
+                        <sourceDirectory>${project.basedir}/src/test/avro</sourceDirectory>
+                        <outputDirectory>${project.build.directory}/generated-test-sources/avro</outputDirectory>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>kafka-it</id>
+      <activation><activeByDefault>false</activeByDefault></activation>
+      <properties><includes.pattern>**/*IT.java</includes.pattern></properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <includes><include>${includes.pattern}</include></includes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>e2e</id>
+      <activation><activeByDefault>false</activeByDefault></activation>
+      <properties><includes.pattern>**/*E2E.java</includes.pattern></properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <includes><include>${includes.pattern}</include></includes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>schema-compat</id>
+      <activation><activeByDefault>false</activeByDefault></activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <configuration>
+              <includes>
+                <include>**/*SchemaCompatibilityIT.java</include>
+                <include>**/*SchemaEvolutionIT.java</include>
+              </includes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

@@ -1,0 +1,10 @@
+/Users/mac/IdeaProjects/kafka-messaging-tests-project/kafka-messaging-tests/src/test/java/org/example/tests/ApiToKafkaE2E.java
+/Users/mac/IdeaProjects/kafka-messaging-tests-project/kafka-messaging-tests/src/test/java/org/example/tests/AvroKafkaTestConfig.java
+/Users/mac/IdeaProjects/kafka-messaging-tests-project/kafka-messaging-tests/src/test/java/org/example/tests/DlqAssertionIT.java
+/Users/mac/IdeaProjects/kafka-messaging-tests-project/kafka-messaging-tests/src/test/java/org/example/tests/KafkaConfigTest.java
+/Users/mac/IdeaProjects/kafka-messaging-tests-project/kafka-messaging-tests/src/test/java/org/example/tests/KafkaConsumerIT.java
+/Users/mac/IdeaProjects/kafka-messaging-tests-project/kafka-messaging-tests/src/test/java/org/example/tests/SchemaCompatibilityIT.java
+/Users/mac/IdeaProjects/kafka-messaging-tests-project/kafka-messaging-tests/src/test/java/org/example/tests/SchemaEvolutionIT.java
+/Users/mac/IdeaProjects/kafka-messaging-tests-project/kafka-messaging-tests/src/test/java/org/example/tests/TestApp.java
+/Users/mac/IdeaProjects/kafka-messaging-tests-project/kafka-messaging-tests/target/generated-test-sources/avro/org/example/avro/v1/OrderCreated.java
+/Users/mac/IdeaProjects/kafka-messaging-tests-project/kafka-messaging-tests/target/generated-test-sources/avro/org/example/avro/v2/OrderCreated.java

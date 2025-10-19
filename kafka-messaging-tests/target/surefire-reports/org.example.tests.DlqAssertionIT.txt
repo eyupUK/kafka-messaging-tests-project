@@ -1,0 +1,19 @@
+-------------------------------------------------------------------------------
+Test set: org.example.tests.DlqAssertionIT
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 41.17 s <<< FAILURE! -- in org.example.tests.DlqAssertionIT
+org.example.tests.DlqAssertionIT.invalidEvent_isReroutedToDLQ_withReasonHeader -- Time elapsed: 5.553 s <<< FAILURE!
+java.lang.AssertionError: 
+
+Expecting actual:
+  "Listener method could not be invoked with the incoming message
+Endpoint handler details:
+Method [public void org.example.tests.TestApp$OrderService.onOrder(org.example.avro.v2.OrderCreated)]
+Bean [org.example.tests.TestApp$OrderService@65294247]; Cannot handle message"
+to contain:
+  "negative total" 
+	at org.example.tests.DlqAssertionIT.invalidEvent_isReroutedToDLQ_withReasonHeader(DlqAssertionIT.java:57)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+

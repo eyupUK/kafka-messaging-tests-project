@@ -1,0 +1,19 @@
+spring:
+  kafka:
+    consumer:
+      group-id: test-group
+      auto-offset-reset: earliest
+      properties:
+        specific.avro.reader: true
+    listener:
+      ack-mode: record
+  datasource:
+    driver-class-name: org.postgresql.Driver
+
+app:
+  topics:
+    orders: orders.created
+    dlq: orders.created.DLQ
+
+server:
+  port: 0
