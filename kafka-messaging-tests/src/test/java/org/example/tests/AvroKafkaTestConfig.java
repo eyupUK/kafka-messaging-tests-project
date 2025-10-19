@@ -124,7 +124,10 @@ public class AvroKafkaTestConfig {
 
     @Bean
     public CommonErrorHandler errorHandler(DeadLetterPublishingRecoverer dltRecoverer) {
-        return new org.springframework.kafka.listener.DefaultErrorHandler(dltRecoverer, new FixedBackOff(200, 2));
+        var handler = new org.springframework.kafka.listener.DefaultErrorHandler(dltRecoverer, new FixedBackOff(0L, 0L));
+        handler.addNotRetryableExceptions(IllegalArgumentException.class);
+        handler.setCommitRecovered(true);
+        return handler;
     }
 
     // ---------- Bytes consumer (DLQ assertions) ----------
